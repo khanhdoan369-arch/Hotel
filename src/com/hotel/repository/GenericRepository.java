@@ -1,33 +1,17 @@
 package com.hotel.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class GenericRepository<T> {
+public interface GenericRepository<T> {
 
-    protected List<T> items;
+    void add(T item);
 
-    public GenericRepository() {
-        items = new ArrayList<>();
-    }
+    void update(T item);
 
-    public void add(T item) {
-        items.add(item);
-    }
+    void delete(String id);
 
-    public List<T> getAll() {
-        return items;
-    }
+    T findById(String id);
 
-    public void remove(T item) {
-        items.remove(item);
-    }
+    List<T> findAll();
 
-    public int size() {
-        return items.size();
-    }
-
-    public boolean isEmpty() {
-        return items.isEmpty();
-    }
 }

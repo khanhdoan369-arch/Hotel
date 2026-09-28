@@ -1,9 +1,6 @@
 
 package com.hotel.model;
 
-/**
- * Abstract class representing a hotel room.
- */
 public abstract class Room {
 
     protected String id;
@@ -19,11 +16,6 @@ public abstract class Room {
         this.basePrice = basePrice;
     }
 
-    /**
-     * Calculate the final room price.
-     *
-     * @return final price
-     */
     public abstract double calculatePrice();
 
     public String getId() {

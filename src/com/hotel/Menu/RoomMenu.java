@@ -1,10 +1,12 @@
-package Menu;
+package com.hotel.Menu;
 
 import com.hotel.exception.DuplicateRoomException;
 import com.hotel.exception.RoomNotFoundException;
 import com.hotel.model.Room;
 import com.hotel.model.StandardRoom;
 import com.hotel.service.RoomService;
+import com.hotel.model.SuiteRoom;
+import com.hotel.util.PriceUtil;
 
 import java.util.List;
 import java.util.Scanner;
@@ -77,15 +79,48 @@ public class RoomMenu {
             System.out.print("Base Price: ");
             double basePrice = Double.parseDouble(scanner.nextLine());
 
-            System.out.print("Max Guests: ");
-            int maxGuests = Integer.parseInt(scanner.nextLine());
+            System.out.println("Room Type:");
+            System.out.println("1. Standard Room");
+            System.out.println("2. Suite Room");
+            System.out.print("Choose: ");
+            int type = Integer.parseInt(scanner.nextLine());
 
-            Room room = new StandardRoom(
-                    id,
-                    roomNumber,
-                    basePrice,
-                    maxGuests
-            );
+            Room room;
+
+            if (type == 1) {
+
+                System.out.print("Max Guests: ");
+                int maxGuests = Integer.parseInt(scanner.nextLine());
+
+                room = new StandardRoom(
+                        id,
+                        roomNumber,
+                        basePrice,
+                        maxGuests
+                );
+
+            } else if (type == 2) {
+
+                System.out.print("Has Jacuzzi (true/false): ");
+                boolean hasJacuzzi = Boolean.parseBoolean(scanner.nextLine());
+
+                System.out.print("Extra Service Fee: ");
+                double extraServiceFee = Double.parseDouble(scanner.nextLine());
+
+                room = new SuiteRoom(
+                        id,
+                        roomNumber,
+                        basePrice,
+                        hasJacuzzi,
+                        extraServiceFee
+                );
+
+            } else {
+
+                System.out.println("Invalid room type!");
+                return;
+
+            }
 
             roomService.addRoom(room);
 
@@ -112,20 +147,38 @@ public class RoomMenu {
         List<Room> rooms = roomService.getAllRooms();
 
         if (rooms.isEmpty()) {
-
             System.out.println("No rooms found.");
             return;
-
         }
 
         for (Room room : rooms) {
 
-            System.out.println(room);
+            System.out.println("----------------------------------------");
+            System.out.println("Room ID      : " + room.getId());
+            System.out.println("Room Number  : " + room.getRoomNumber());
+            System.out.println("Base Price   : " + PriceUtil.format(room.getBasePrice()));
+            System.out.println("Final Price  : " + PriceUtil.format(room.calculatePrice()));
 
+            if (room instanceof StandardRoom) {
+
+                StandardRoom standard = (StandardRoom) room;
+
+                System.out.println("Room Type    : Standard Room");
+                System.out.println("Max Guests   : " + standard.getMaxGuests());
+
+            } else if (room instanceof SuiteRoom) {
+
+                SuiteRoom suite = (SuiteRoom) room;
+
+                System.out.println("Room Type    : Suite Room");
+                System.out.println("Has Jacuzzi  : " + suite.isHasJacuzzi());
+                System.out.println("Extra Fee    : " + PriceUtil.format(suite.getExtraServiceFee()));
+
+            }
+
+            System.out.println("----------------------------------------");
         }
-
     }
-
     /**
      * Find Room
      */
@@ -136,12 +189,34 @@ public class RoomMenu {
             System.out.println("\n========== FIND ROOM ==========");
 
             System.out.print("Enter Room ID: ");
-
             String id = scanner.nextLine();
 
             Room room = roomService.findRoomById(id);
 
-            System.out.println(room);
+            System.out.println("\n========== ROOM INFORMATION ==========");
+            System.out.println("Room ID      : " + room.getId());
+            System.out.println("Room Number  : " + room.getRoomNumber());
+            System.out.println("Base Price   : " + PriceUtil.format(room.getBasePrice()));
+            System.out.println("Final Price  : " + PriceUtil.format(room.calculatePrice()));
+
+            if (room instanceof StandardRoom) {
+
+                StandardRoom standard = (StandardRoom) room;
+
+                System.out.println("Room Type    : Standard Room");
+                System.out.println("Max Guests   : " + standard.getMaxGuests());
+
+            } else if (room instanceof SuiteRoom) {
+
+                SuiteRoom suite = (SuiteRoom) room;
+
+                System.out.println("Room Type    : Suite Room");
+                System.out.println("Has Jacuzzi  : " + suite.isHasJacuzzi());
+                System.out.println("Extra Fee    : " + PriceUtil.format(suite.getExtraServiceFee()));
+
+            }
+
+            System.out.println("----------------------------------------");
 
         } catch (RoomNotFoundException e) {
 
@@ -161,14 +236,34 @@ public class RoomMenu {
             System.out.println("\n========== UPDATE ROOM ==========");
 
             System.out.print("Enter Room ID: ");
-
             String id = scanner.nextLine();
 
             Room room = roomService.findRoomById(id);
 
-            System.out.println("\nCurrent Information");
+            System.out.println("\n========== CURRENT INFORMATION ==========");
+            System.out.println("Room ID      : " + room.getId());
+            System.out.println("Room Number  : " + room.getRoomNumber());
+            System.out.println("Base Price   : " + PriceUtil.format(room.getBasePrice()));
+            System.out.println("Final Price  : " + PriceUtil.format(room.calculatePrice()));
 
-            System.out.println(room);
+            if (room instanceof StandardRoom) {
+
+                StandardRoom standard = (StandardRoom) room;
+
+                System.out.println("Room Type    : Standard Room");
+                System.out.println("Max Guests   : " + standard.getMaxGuests());
+
+            } else if (room instanceof SuiteRoom) {
+
+                SuiteRoom suite = (SuiteRoom) room;
+
+                System.out.println("Room Type    : Suite Room");
+                System.out.println("Has Jacuzzi  : " + suite.isHasJacuzzi());
+                System.out.println("Extra Fee    : " + PriceUtil.format(suite.getExtraServiceFee()));
+
+            }
+
+            System.out.println("----------------------------------------");
 
             System.out.print("New Room Number: ");
             room.setRoomNumber(scanner.nextLine());
@@ -178,12 +273,21 @@ public class RoomMenu {
 
             if (room instanceof StandardRoom) {
 
-                StandardRoom standardRoom = (StandardRoom) room;
+                StandardRoom standard = (StandardRoom) room;
 
                 System.out.print("New Max Guests: ");
+                standard.setMaxGuests(Integer.parseInt(scanner.nextLine()));
 
-                standardRoom.setMaxGuests(
-                        Integer.parseInt(scanner.nextLine())
+            } else if (room instanceof SuiteRoom) {
+
+                SuiteRoom suite = (SuiteRoom) room;
+
+                System.out.print("Has Jacuzzi (true/false): ");
+                suite.setHasJacuzzi(Boolean.parseBoolean(scanner.nextLine()));
+
+                System.out.print("New Extra Service Fee: ");
+                suite.setExtraServiceFee(
+                        Double.parseDouble(scanner.nextLine())
                 );
 
             }

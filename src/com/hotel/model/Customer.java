@@ -1,8 +1,5 @@
 package com.hotel.model;
 
-/**
- * Represents a hotel customer.
- */
 public class Customer {
 
     private String customerId;

@@ -15,6 +15,9 @@ public class RoomService {
         repository = new RoomRepository();
     }
 
+    /**
+     * Thêm phòng.
+     */
     public void addRoom(Room room) throws DuplicateRoomException {
 
         if (repository.exists(room.getId())) {
@@ -24,10 +27,35 @@ public class RoomService {
         repository.add(room);
     }
 
-    public List<Room> getAllRooms() {
-        return repository.getAll();
+    /**
+     * Cập nhật thông tin phòng
+     */
+    public void updateRoom(Room room)
+            throws RoomNotFoundException {
+
+        if (repository.findById(room.getId()) == null) {
+            throw new RoomNotFoundException("Room not found.");
+        }
+
+        repository.update(room);
     }
 
+    /**
+     * Xoá phòng.
+     */
+    public void deleteRoom(String id)
+            throws RoomNotFoundException {
+
+        if (repository.findById(id) == null) {
+            throw new RoomNotFoundException("Room not found.");
+        }
+
+        repository.delete(id);
+    }
+
+    /**
+     * Tiìm phòng bằng ID.
+     */
     public Room findRoomById(String id)
             throws RoomNotFoundException {
 
@@ -40,13 +68,11 @@ public class RoomService {
         return room;
     }
 
-    public void deleteRoom(String id)
-            throws RoomNotFoundException {
-
-        if (!repository.delete(id)) {
-            throw new RoomNotFoundException("Room not found.");
-        }
-
+    /**
+     * Lấy thông tin của tất cả các phòng.
+     */
+    public List<Room> getAllRooms() {
+        return repository.findAll();
     }
 
 }

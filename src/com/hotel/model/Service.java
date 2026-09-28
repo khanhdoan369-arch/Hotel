@@ -1,8 +1,5 @@
 package com.hotel.model;
 
-/**
- * Represents an additional hotel service.
- */
 public class Service {
 
     private String serviceId;

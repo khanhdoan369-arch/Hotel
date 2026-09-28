@@ -1,6 +1,12 @@
-package Main;
+package com.hotel;
 
-import Menu.*;
+import com.hotel.Menu.BookingMenu;
+import com.hotel.Menu.CustomerMenu;
+import com.hotel.Menu.InvoiceMenu;
+import com.hotel.Menu.ReportMenu;
+import com.hotel.Menu.RoomMenu;
+
+import java.util.Scanner;
 
 public class Main {
 
@@ -10,13 +16,7 @@ public class Main {
 
         while (true) {
 
-            System.out.println("========== HOTEL ==========");
-            System.out.println("1. Room");
-            System.out.println("2. Customer");
-            System.out.println("3. Booking");
-            System.out.println("4. Invoice");
-            System.out.println("5. Report");
-            System.out.println("0. Exit");
+            showMainMenu();
 
             int choice = Integer.parseInt(scanner.nextLine());
 
@@ -43,8 +43,27 @@ public class Main {
                     break;
 
                 case 0:
+                    System.out.println("Thank you for using Hotel Management System.");
                     return;
+
+                default:
+                    System.out.println("Invalid choice!");
             }
         }
     }
+
+    private static void showMainMenu() {
+
+        System.out.println();
+        System.out.println("========== HOTEL MANAGEMENT ==========");
+        System.out.println("1. Room Management");
+        System.out.println("2. Customer Management");
+        System.out.println("3. Booking Management");
+        System.out.println("4. Invoice Management");
+        System.out.println("5. Report");
+        System.out.println("0. Exit");
+        System.out.print("Choose: ");
+
+    }
+
 }

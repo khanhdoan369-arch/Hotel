@@ -2,9 +2,6 @@ package com.hotel.model;
 
 import java.time.LocalDate;
 
-/**
- * Represents a hotel booking.
- */
 public class Booking implements IRefundable {
 
     private String bookingId;

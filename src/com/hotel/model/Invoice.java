@@ -4,9 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Represents an invoice.
- */
+
 public class Invoice {
 
     private String invoiceId;
@@ -72,16 +70,12 @@ public class Invoice {
         this.createdDate = createdDate;
     }
 
-    /**
-     * Add an additional service.
-     */
+
     public void addService(Service service) {
         services.add(service);
     }
 
-    /**
-     * Calculate total invoice.
-     */
+   
     public void calculateTotalAmount() {
 
         totalAmount = booking.getTotalPrice();

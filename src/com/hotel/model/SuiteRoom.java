@@ -1,8 +1,5 @@
 package com.hotel.model;
 
-/**
- * Suite room with extra service fee.
- */
 public class SuiteRoom extends Room {
 
     private boolean hasJacuzzi;

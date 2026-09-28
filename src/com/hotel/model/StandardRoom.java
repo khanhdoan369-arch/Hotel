@@ -1,9 +1,6 @@
 
 package com.hotel.model;
 
-/**
- * Standard room with seasonal discount support.
- */
 public class StandardRoom extends Room implements IDiscountable {
 
     private int maxGuests;
